@@ -1,7 +1,7 @@
 ## Real Time Quote Server
 
 ### A. About
-This project is about designing a real time quote server which aims to replicate providing simulated stock prices to clients. Some of the deisgn features implemented are:
+This project is about designing a real time quote server which aims to replicate providing simulated stock prices to clients. Some of the design features implemented are:
 1. Clients should be able to subscribe ticker from some time and then any change
 in quotation (open, high, low, bid , ask ) for that symbol should be provided to the
 subscriber
