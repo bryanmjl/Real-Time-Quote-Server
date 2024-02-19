@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Create our Header for Client HTML webpage -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Quote Client</title>
+</head>
+
+<body>
+    <h1>Real-time Quote Client</h1>
+
+    <!-- Subscribe to Symbol Text and subscribe button-->
+    <!-- When user clicks on subscribe button, JS function subscribe() is called-->
+    <div>
+        <label for="subscribe-symbol">Subscribe to Symbol:</label>
+        <input type="text" id="subscribe-symbol">
+        <button onclick="subscribe()">Subscribe</button>
+    </div>
+
+    <!-- Unsubscribe to Symbol Text and unsubscribe button-->
+    <!-- When user clicks on unsubscribe button, JS function unsubscribe() is called-->
+    <div>
+        <label for="unsubscribe-symbol">Unsubscribe from Symbol:</label>
+        <input type="text" id="unsubscribe-symbol">
+        <button onclick="unsubscribe()">Unsubscribe</button>
+    </div>
+
+    <!-- Add in a container to type in our symbols-->
+    <div id="quote-container"></div>
+
+    <!-- JS script to connect client to server-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js"></script>
+    <script>
+
+        // Create WebSocket connection between the client and server
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+        
+        // Event listener to check for quote_change emitted from server side
+        socket.on('quote_change', function (quote) {
+            displayQuote(quote);
+        });
+
+        // Event listener for subscription success and print log message
+        socket.on('subscription_success', function (data) {
+            console.log('Subscribed to symbol:', data.symbol, 'Current clients:', data.clients);
+        });
+
+        // Event listener for unsubscription success and print log message
+        socket.on('unsubscription_success', function (data) {
+            console.log('Unsubscribed from symbol:', data.symbol, 'Current clients:', data.clients);
+        });
+        
+        // Sends a "subscribe" event from client to server
+        // Calls upon our event handler "subscribe" per @socketio.on('subscribe') handler
+        function subscribe() {
+            var symbol = document.getElementById('subscribe-symbol').value;
+            if (symbol.trim() !== '') {
+                socket.emit('subscribe', { symbol: symbol });
+            }
+        }
+
+        // Sends a "unsubscribe" event from client to server
+        // Calls upon our event handler "unsubscribe" per @socketio.on('unsubscribe') handler
+        function unsubscribe() {
+            var symbol = document.getElementById('unsubscribe-symbol').value;
+            if (symbol.trim() !== '') {
+                socket.emit('unsubscribe', { symbol: symbol });
+            }
+        }
+
+        // 
+        function displayQuote(quote) {
+            var quoteContainer = document.getElementById('quote-container');
+            quoteContainer.innerHTML = JSON.stringify(quote);
+        }
+    </script>
+</body>
+</html>
