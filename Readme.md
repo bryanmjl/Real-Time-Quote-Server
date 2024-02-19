@@ -10,7 +10,6 @@ ticket subscriptions from single or multiple clients
 3. Client can interact via a server interface and receive stock quotes
 
 
-
 ### B. Tech stacks and Workflow
 We use the following tech stacks:
 1. ```Flask``` and ```Python```: Backend Flask Web Application
@@ -90,19 +89,7 @@ Overview of event workflow for real time quote server:
     - Create our event handlers ```subscribe``` and ```unsubscribe``` to listen for events sent from client to server side. See step on client side implementation for actual code blocks. Our event handlers are denoted by decorators ```@socketio.on('subscribe')``` and ```@socketio.on('unsubscribe')```
         
 2. Client Side implementation ```client.py```
-    - Create header, Subscribe/Unsubscribe to symbol text, as well as our main title. See below on how this looks once rendered in HTML:
-
-        <h1>Real-time Quote Client</h1>
-        <div>
-            <label for="subscribe-symbol">Subscribe to Symbol:</label>
-            <input type="text" id="subscribe-symbol">
-            <button onclick="subscribe()">Subscribe</button>
-        </div>
-        <div>
-            <label for="unsubscribe-symbol">Unsubscribe from Symbol:</label>
-            <input type="text" id="unsubscribe-symbol">
-            <button onclick="unsubscribe()">Unsubscribe</button>
-        </div><br /><br />
+    - Create header, Subscribe/Unsubscribe to symbol text, as well as our main title on ```Templates/client.html```
 
     - Create websocket connection between client and server side and URL for users to load
         - ```
